@@ -1,4 +1,4 @@
-##PrethesesGrouper
+##Paretheses Grouper
 
 Groups text, as delineated by parentheses, and outputs the form of these groups to the screen as a picture.
 
