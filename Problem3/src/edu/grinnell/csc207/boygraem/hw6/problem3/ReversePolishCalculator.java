@@ -59,19 +59,19 @@ public class ReversePolishCalculator
 
           // Greet the user
           consoleView.echo ("\t\t\t\t* Welcome to the RPC! *");
-          consoleView.echo ("=======================================================================================");
-          consoleView.echo ("\tThe RPC handles basic arithmetic problems, returning integers.");
-          consoleView.echo ("It can " + "accept integers, the operators "
+          consoleView.echo ("============================================================================================");
+          consoleView.echo ("\tThe RPC handles basic arithmetic problems, returning double values.");
+          consoleView.echo ("It can " + "accept real numbers, the operators "
                             + implodeCharArray (operators, ", ")
                             + " and 'p' to print, 'e' to end.");
-          consoleView.echo ("=======================================================================================\n");
+          consoleView.echo ("============================================================================================\n");
 
           br = new BufferedReader (new InputStreamReader (System.in));
           // Request some data from the user.
           consoleView.echo (inputPrompt);
 
           String line;
-          int temp;
+          double temp;
 
           while ((line = br.readLine ()).compareTo ("e") != 0)
             {
@@ -100,7 +100,14 @@ public class ReversePolishCalculator
                                     break;
                                   case "/":
                                     temp = model.get ();
-                                    model.put (model.get () / temp);
+                                    if (temp != 0)
+                                      {
+                                        model.put (model.get () / temp);
+                                      }
+                                    else
+                                      {
+                                        consoleView.echo ("Divide by zero.");
+                                      }
                                     break;
                                   case "-":
                                     temp = model.get ();
@@ -112,8 +119,7 @@ public class ReversePolishCalculator
                                     break;
                                   case "^":
                                     temp = model.get ();
-                                    model.put ((int) Math.pow (model.get (),
-                                                               temp));
+                                    model.put (Math.pow (model.get (), temp));
                                 } // switch
                             } // else
                         } // if
@@ -142,13 +148,13 @@ public class ReversePolishCalculator
                                 // Try an integer input.
                                 try
                                   {
-                                    model.put (Integer.parseInt (pieces[i]));
+                                    model.put (Double.parseDouble (pieces[i]));
                                   }
                                 catch (NumberFormatException nfe)
                                   {
                                     consoleView.echo ("The input "
                                                       + pieces[i]
-                                                      + " was not accepted. Was this meant to be an integer?");
+                                                      + " was not accepted. Was this meant to be an number?");
                                   }
                             } // switch
                         } // else
@@ -182,7 +188,7 @@ public class ReversePolishCalculator
       if (!model.isEmpty ())
         {
           int numItems = model.size ();
-          int[] nanny = new int[numItems];
+          double[] nanny = new double[numItems];
           for (int x = 0; x < numItems; x++)
             {
               nanny[x] = model.get ();
@@ -238,28 +244,28 @@ public class ReversePolishCalculator
 
   public class Model
   {
-    ArrayBasedStack<Integer> memory; // Every brain has some memory.
+    ArrayBasedStack<Double> memory; // Every brain has some memory.
 
     /*
      * Constructors
      */
     public Model () throws Exception
     {
-      this.memory = new ArrayBasedStack<Integer> (maxStackSize);
+      this.memory = new ArrayBasedStack<Double> (maxStackSize);
     } // Model ()
 
     /*
      * Methods
      */
     /**
-     * function put, adds a given integer to the memory stack
+     * function put, adds a given double to the memory stack
      * 
      * @param val
      * @throws Exception
      * @post get() = val
      */
     public void
-      put (int val)
+      put (double val)
         throws Exception
     {
       this.memory.put (val);
@@ -268,12 +274,12 @@ public class ReversePolishCalculator
     /**
      * function get, returns the next interger in the memory stack
      * 
-     * @return the next integer in the memory stack
+     * @return the next double in the memory stack
      * @throws Exception
      * @pre there must be a value remaining in the stack
      * @post the last value is removed from the stack
      */
-    public int
+    public double
       get ()
         throws Exception
     {
@@ -287,7 +293,7 @@ public class ReversePolishCalculator
         } // else
     } // get ()
 
-    public int
+    public double
       peek ()
         throws Exception
     {
