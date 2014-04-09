@@ -39,6 +39,9 @@ public class ReversePolishCalculator
   // | Classes |
   // +---------+
 
+  /*
+   * Controller
+   */
   public class Controller
   {
     BufferedReader br;
@@ -57,7 +60,7 @@ public class ReversePolishCalculator
           consoleView.echo ("=======================================================================================");
           consoleView.echo ("\tThe RPC handles basic arithmetic problems, returning integers.");
           consoleView.echo ("It can " + "accept integers, the operators "
-                            + implodeCharArray (operators)
+                            + implodeCharArray (operators, ", ")
                             + " and 'p' to print, 'e' to end.");
           consoleView.echo ("=======================================================================================\n");
 
@@ -81,7 +84,7 @@ public class ReversePolishCalculator
                         {
                           if (model.size () < 2)
                             {
-                              consoleView.echo ("Too few numerical arguments were given (The stack is empty!)");
+                              consoleView.echo ("Too few numerical arguments were given.");
                             } // if
                           else
                             {
@@ -94,10 +97,12 @@ public class ReversePolishCalculator
                                     model.put (model.get () * model.get ());
                                     break;
                                   case "/":
-                                    model.put (model.get () / model.get ());
+                                    temp = model.get ();
+                                    model.put (model.get () / temp);
                                     break;
                                   case "-":
-                                    model.put (model.get () - model.get ());
+                                    temp = model.get ();
+                                    model.put (model.get () - temp);
                                     break;
                                   case "%":
                                     temp = model.get ();
@@ -117,10 +122,19 @@ public class ReversePolishCalculator
                               case "p":
                                 consoleView.echo (String.valueOf (model.get ()));
                                 break;
-
+                              // The case of "e" is handled in the while loop
                               default:
                                 // integer input
-                                model.put (Integer.parseInt (pieces[i]));
+                                try
+                                  {
+                                    model.put (Integer.parseInt (pieces[i]));
+                                  }
+                                catch (NumberFormatException nfe)
+                                  {
+                                    consoleView.echo ("The input "
+                                                      + pieces[i]
+                                                      + " was not accepted. Was this meant to be an integer?");
+                                  }
                             } // switch
                         } // else
                     } // for
@@ -139,14 +153,23 @@ public class ReversePolishCalculator
 
     } // Controller ()
 
+    /**
+     * function implodeCharArray, returns the items in a char array, glued
+     * together by the glue parameter.
+     * 
+     * @param fragments
+     * @param glue
+     * @return unified, a String containing all the items in the fragments
+     *         array, joined by the string "glue."
+     */
     public String
-      implodeCharArray (char[] fragments)
+      implodeCharArray (char[] fragments, String glue)
     {
       String unified = "";
 
       for (char peice : fragments)
         {
-          unified += peice + ", ";
+          unified += peice + glue;
         } // for
       return unified;
     } // implodeArray()
@@ -213,21 +236,36 @@ public class ReversePolishCalculator
       else
         {
           return 0; // STUB
-        }
+        } // else
     } // get ()
 
+    /**
+     * function size, returns the number of items in the memory stack
+     * 
+     * @return the number of items in memory
+     */
     public int
       size ()
     {
       return this.memory.size;
-    }
+    } // size ()
 
+    /**
+     * function hasSpace
+     * 
+     * @return true or false if memory has the maximum number of arguments
+     */
     public boolean
       hasSpace ()
     {
       return (!this.memory.isFull ());
     } // hasSpace()
 
+    /**
+     * function isEmpty
+     * 
+     * @return true or false, depending on if memory is empty
+     */
     public boolean
       isEmpty ()
     {
