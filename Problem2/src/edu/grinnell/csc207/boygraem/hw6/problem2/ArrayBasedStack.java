@@ -1,3 +1,4 @@
+package edu.grinnell.csc207.boygraem.hw6.problem2;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 

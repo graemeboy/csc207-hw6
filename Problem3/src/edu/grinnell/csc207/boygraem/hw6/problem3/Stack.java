@@ -1,24 +1,23 @@
+package edu.grinnell.csc207.boygraem.hw6.problem3;
 import java.util.Iterator;
 
 /**
- * Simple linear structures, which let you add and remove items one 
- * at a time.
+ * A linear structure that follows the last-in, first-out policy.
  *
  * @author Samuel A. Rebelsky
  */
-public interface LinearStructure<T>
-    extends Iterable<T>
+public interface Stack<T>
+    extends LinearStructure<T>
 {
   /**
-   * Add an element to the structure.
+   * Add an element to the stack.
    *
    * @param val
    *   the value to add.
    * @pre
    *   !this.isFull()
    * @post
-   *   The element has been added to the structure.  At some point,
-   *   a call to get() will remove the element.
+   *   The stack now contains an additional element of val.
    * @exception Exception
    *   If the structure is full.
    */
@@ -26,8 +25,8 @@ public interface LinearStructure<T>
     throws Exception;
 
   /**
-   * Remove an element from the structure according to the underlying
-   * policy.
+   * Remove the most recently added element that is still in the
+   * stack.
    *
    * @return
    *   val, a value.
@@ -35,6 +34,9 @@ public interface LinearStructure<T>
    *   !this.isEmpty()
    * @post
    *   The structure contains one fewer copy of val.
+   * @post
+   *   Every element that remains in the stack was added less recently
+   *   than val.
    * @exception Exception
    *   If the structure is empty.
    */
@@ -49,7 +51,7 @@ public interface LinearStructure<T>
    * @pre
    *   !this.isEmpty()
    * @post
-   *   The next call to this.get() returns val.
+   *   Every other value in the stack was added less recently than val.
    * @exception Exception
    *   If the structure is empty.
    */
@@ -70,4 +72,16 @@ public interface LinearStructure<T>
    * Get an iterator that returns all of the elements in some order.
    */
   public Iterator<T> iterator();
-} // interface LinearStructure
+
+  /**
+   * Push a value on the stack.  (An alias for put.)
+   */
+  public void push(T val)
+    throws Exception;
+
+  /**
+   * Pop a value from the stack.  (An alias for get.)
+   */
+  public T pop()
+    throws Exception;
+} // interface Stack<T>

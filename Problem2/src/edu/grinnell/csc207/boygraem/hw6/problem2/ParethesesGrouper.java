@@ -1,3 +1,4 @@
+package edu.grinnell.csc207.boygraem.hw6.problem2;
 import java.io.PrintWriter;
 import java.util.Deque;
 import java.util.LinkedList;

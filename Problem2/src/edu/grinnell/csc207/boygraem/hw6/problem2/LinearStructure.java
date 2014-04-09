@@ -1,22 +1,25 @@
+package edu.grinnell.csc207.boygraem.hw6.problem2;
 import java.util.Iterator;
 
 /**
- * A linear structure that follows the last-in, first-out policy.
+ * Simple linear structures, which let you add and remove items one 
+ * at a time.
  *
  * @author Samuel A. Rebelsky
  */
-public interface Stack<T>
-    extends LinearStructure<T>
+public interface LinearStructure<T>
+    extends Iterable<T>
 {
   /**
-   * Add an element to the stack.
+   * Add an element to the structure.
    *
    * @param val
    *   the value to add.
    * @pre
    *   !this.isFull()
    * @post
-   *   The stack now contains an additional element of val.
+   *   The element has been added to the structure.  At some point,
+   *   a call to get() will remove the element.
    * @exception Exception
    *   If the structure is full.
    */
@@ -24,8 +27,8 @@ public interface Stack<T>
     throws Exception;
 
   /**
-   * Remove the most recently added element that is still in the
-   * stack.
+   * Remove an element from the structure according to the underlying
+   * policy.
    *
    * @return
    *   val, a value.
@@ -33,9 +36,6 @@ public interface Stack<T>
    *   !this.isEmpty()
    * @post
    *   The structure contains one fewer copy of val.
-   * @post
-   *   Every element that remains in the stack was added less recently
-   *   than val.
    * @exception Exception
    *   If the structure is empty.
    */
@@ -50,7 +50,7 @@ public interface Stack<T>
    * @pre
    *   !this.isEmpty()
    * @post
-   *   Every other value in the stack was added less recently than val.
+   *   The next call to this.get() returns val.
    * @exception Exception
    *   If the structure is empty.
    */
@@ -71,16 +71,4 @@ public interface Stack<T>
    * Get an iterator that returns all of the elements in some order.
    */
   public Iterator<T> iterator();
-
-  /**
-   * Push a value on the stack.  (An alias for put.)
-   */
-  public void push(T val)
-    throws Exception;
-
-  /**
-   * Pop a value from the stack.  (An alias for get.)
-   */
-  public T pop()
-    throws Exception;
-} // interface Stack<T>
+} // interface LinearStructure
