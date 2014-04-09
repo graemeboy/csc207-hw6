@@ -1,3 +1,4 @@
+package edu.grinnell.csc207.boygraem.hw6.problem1;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
