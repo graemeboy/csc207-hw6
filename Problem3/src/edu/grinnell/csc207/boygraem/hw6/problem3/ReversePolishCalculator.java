@@ -1,4 +1,5 @@
 package edu.grinnell.csc207.boygraem.hw6.problem3;
+
 import java.io.*;
 
 /**
@@ -120,12 +121,25 @@ public class ReversePolishCalculator
                         {
                           switch (pieces[i])
                             {
+                            // The case of "e" is handled in the while loop
                               case "p":
-                                consoleView.echo (String.valueOf (model.get ()));
+                                // Print the top item without removing it
+                                consoleView.echo (String.valueOf (model.peek ()));
                                 break;
-                              // The case of "e" is handled in the while loop
+                              case "s":
+                                // Print the whole stack
+                                printStack ();
+                                break;
+                              case "c":
+                                while (!model.isEmpty ())
+                                  {
+                                    // Pillage - until there is nothing left.
+                                    model.get ();
+                                  }
+                                consoleView.echo ("The stack has been emptied.");
+                                break;
                               default:
-                                // integer input
+                                // Try an integer input.
                                 try
                                   {
                                     model.put (Integer.parseInt (pieces[i]));
@@ -153,6 +167,39 @@ public class ReversePolishCalculator
         } // catch
 
     } // Controller ()
+
+    /**
+     * function printStack, prints the current stack to the screen
+     * 
+     * @throws Exception
+     * @post stack is the same as it was before function call. The stack is
+     *       printed to the screen
+     */
+    public void
+      printStack ()
+        throws Exception
+    {
+      if (!model.isEmpty ())
+        {
+          int numItems = model.size ();
+          int[] nanny = new int[numItems];
+          for (int x = 0; x < numItems; x++)
+            {
+              nanny[x] = model.get ();
+              consoleView.echo (String.valueOf (nanny[x]));
+            } // while
+          // put back what you found
+          for (int x = numItems - 1; x >= 0; x--)
+            {
+              model.put (nanny[x]);
+            } // for
+          nanny = null;
+        } // if
+      else
+        {
+          consoleView.echo ("The stack is empty!");
+        } // else
+    } // printStack()
 
     /**
      * function implodeCharArray, returns the items in a char array, glued
@@ -233,6 +280,20 @@ public class ReversePolishCalculator
       if (!this.memory.isEmpty ())
         {
           return this.memory.get ();
+        }
+      else
+        {
+          return 0; // STUB
+        } // else
+    } // get ()
+
+    public int
+      peek ()
+        throws Exception
+    {
+      if (!this.memory.isEmpty ())
+        {
+          return this.memory.peek ();
         }
       else
         {
