@@ -59,12 +59,15 @@ public class ReversePolishCalculator
 
           // Greet the user
           consoleView.echo ("\t\t\t\t* Welcome to the RPC! *");
-          consoleView.echo ("============================================================================================");
-          consoleView.echo ("\tThe RPC handles basic arithmetic problems, returning double values.");
+          consoleView.echo ("============================================="
+                            + "===============================================");
+          consoleView.echo ("\tThe RPC handles basic arithmetic problems, "
+                            + "returning double values.");
           consoleView.echo ("It can " + "accept real numbers, the operators "
                             + implodeCharArray (operators, ", ")
                             + " and 'p' to print, 'e' to end.");
-          consoleView.echo ("============================================================================================\n");
+          consoleView.echo ("================================================"
+                            + "============================================\n");
 
           br = new BufferedReader (new InputStreamReader (System.in));
           // Request some data from the user.
@@ -86,7 +89,8 @@ public class ReversePolishCalculator
                         {
                           if (model.size () < 2)
                             {
-                              consoleView.echo ("Too few numerical arguments were given.");
+                              consoleView.echo ("Too few numerical "
+                                                + "arguments were given.");
                             } // if
                           else
                             {
@@ -154,7 +158,8 @@ public class ReversePolishCalculator
                                   {
                                     consoleView.echo ("The input "
                                                       + pieces[i]
-                                                      + " was not accepted. Was this meant to be an number?");
+                                                      + " was not accepted. Was"
+                                                      + " this meant to be a number?");
                                   }
                             } // switch
                         } // else
@@ -163,7 +168,8 @@ public class ReversePolishCalculator
                 } // if
               else
                 {
-                  consoleView.echo ("Sorry, that calcalation was longer than I have space to remember.");
+                  consoleView.echo ("Sorry, that calcalation was longer "
+                                    + "than I have space to remember.");
                 } // else
             } // while
         } // try
