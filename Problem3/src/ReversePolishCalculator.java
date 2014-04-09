@@ -58,6 +58,9 @@ public class ReversePolishCalculator
           consoleView.echo (inputPrompt);
 
           String line;
+
+          char[] operators = { '+', '-', '/', '*', '%' };
+
           while ((line = br.readLine ()).compareTo ("e") != 0)
             {
               String[] pieces = line.split (" "); // split into arguments
@@ -65,27 +68,46 @@ public class ReversePolishCalculator
                 {
                   for (int i = 0; i < pieces.length; i++)
                     {
-                      switch (pieces[i])
+
+                      if (pieces[i].length () == 1
+                          && inCharArray (operators, pieces[i].charAt (0)))
                         {
-                          case "p":
-                            consoleView.echo (String.valueOf (model.get ()));
-                            break;
-                          case "+":
-                            model.put (model.get () + model.get ());
-                            break;
-                          case "*":
-                            model.put (model.get () * model.get ());
-                            break;
-                          case "/":
-                            model.put (model.get () / model.get ());
-                            break;
-                          case "-":
-                            model.put (model.get () - model.get ());
-                            break;
-                          default:
-                            // integer input
-                            model.put (Integer.parseInt (pieces[i]));
-                        } // switch
+                          if (model.isEmpty ())
+                            {
+                              consoleView.echo ("No numerical arguments were given (The stack is empty!)");
+                            } // if
+                          else
+                            {
+                              switch (pieces[i])
+                                {
+                                  case "+":
+                                    model.put (model.get () + model.get ());
+                                    break;
+                                  case "*":
+                                    model.put (model.get () * model.get ());
+                                    break;
+                                  case "/":
+                                    model.put (model.get () / model.get ());
+                                    break;
+                                  case "-":
+                                    model.put (model.get () - model.get ());
+                                    break;
+                                }
+                            }
+                        } // if
+                      else
+                        {
+                          switch (pieces[i])
+                            {
+                              case "p":
+                                consoleView.echo (String.valueOf (model.get ()));
+                                break;
+
+                              default:
+                                // integer input
+                                model.put (Integer.parseInt (pieces[i]));
+                            } // switch
+                        } // else
                     } // for
                   consoleView.echo ("Calculation performed. " + inputPrompt);
                 } // if
@@ -100,6 +122,19 @@ public class ReversePolishCalculator
           e.printStackTrace ();
         } // catch
     } // Controller ()
+
+    public boolean
+      inCharArray (char[] haystack, char needle)
+    {
+      for (char candidate : haystack)
+        {
+          if (candidate == needle)
+            {
+              return true;
+            } // if
+        } // for
+      return false; // not present
+    } // inArray
   } // Controller
 
   public class Model
@@ -152,6 +187,18 @@ public class ReversePolishCalculator
           return 0; // STUB
         }
     } // get ()
+
+    public boolean
+      hasSpace ()
+    {
+      return (!this.memory.isFull ());
+    } // hasSpace()
+
+    public boolean
+      isEmpty ()
+    {
+      return this.memory.isEmpty ();
+    } // isEmpty()
 
   } // Model
 
