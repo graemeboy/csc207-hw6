@@ -17,7 +17,9 @@ public class ReversePolishCalculator
 
   final int maxStackSize = 15;
   final PrintWriter pen = new PrintWriter (System.out, true);
-  final String inputPrompt = "Please enter your arguments (use 'p' to print, 'e' to end): ";
+  final String inputPrompt = "Please enter your arguments: ";
+
+  final char[] operators = { '+', '-', '/', '*', '%', '^' };
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -51,15 +53,20 @@ public class ReversePolishCalculator
           consoleView = new ConsoleView ();
 
           // Greet the user
-          consoleView.echo ("Welcome to the RPC!");
+          consoleView.echo ("\t\t\t\t* Welcome to the RPC! *");
+          consoleView.echo ("=======================================================================================");
+          consoleView.echo ("\tThe RPC handles basic arithmetic problems, returning integers.");
+          consoleView.echo ("It can " + "accept integers, the operators "
+                            + implodeCharArray (operators)
+                            + " and 'p' to print, 'e' to end.");
+          consoleView.echo ("=======================================================================================\n");
 
           br = new BufferedReader (new InputStreamReader (System.in));
           // Request some data from the user.
           consoleView.echo (inputPrompt);
 
           String line;
-
-          char[] operators = { '+', '-', '/', '*', '%' };
+          int temp;
 
           while ((line = br.readLine ()).compareTo ("e") != 0)
             {
@@ -72,9 +79,9 @@ public class ReversePolishCalculator
                       if (pieces[i].length () == 1
                           && inCharArray (operators, pieces[i].charAt (0)))
                         {
-                          if (model.isEmpty ())
+                          if (model.size () < 2)
                             {
-                              consoleView.echo ("No numerical arguments were given (The stack is empty!)");
+                              consoleView.echo ("Too few numerical arguments were given (The stack is empty!)");
                             } // if
                           else
                             {
@@ -92,8 +99,16 @@ public class ReversePolishCalculator
                                   case "-":
                                     model.put (model.get () - model.get ());
                                     break;
-                                }
-                            }
+                                  case "%":
+                                    temp = model.get ();
+                                    model.put (model.get () % temp);
+                                    break;
+                                  case "^":
+                                    temp = model.get ();
+                                    model.put ((int) Math.pow (model.get (),
+                                                               temp));
+                                } // switch
+                            } // else
                         } // if
                       else
                         {
@@ -121,7 +136,20 @@ public class ReversePolishCalculator
         {
           e.printStackTrace ();
         } // catch
+
     } // Controller ()
+
+    public String
+      implodeCharArray (char[] fragments)
+    {
+      String unified = "";
+
+      for (char peice : fragments)
+        {
+          unified += peice + ", ";
+        } // for
+      return unified;
+    } // implodeArray()
 
     public boolean
       inCharArray (char[] haystack, char needle)
@@ -187,6 +215,12 @@ public class ReversePolishCalculator
           return 0; // STUB
         }
     } // get ()
+
+    public int
+      size ()
+    {
+      return this.memory.size;
+    }
 
     public boolean
       hasSpace ()
